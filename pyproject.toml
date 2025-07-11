@@ -1,0 +1,7 @@
+[project]
+name = 'store'
+version = '0.0.1rc1'
+maintainers = [
+    {name = "Elena Vishnevskay", email = "elvishn475@mail.com"},
+]
+port = 8080
