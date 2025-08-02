@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from .database import mq_engine
-from .models import Base,EventType
+from .models import Base, EventType
 
 
 def init_mq_data():

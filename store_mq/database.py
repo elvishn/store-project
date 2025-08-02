@@ -11,7 +11,8 @@ Base = declarative_base()
 
 def create_tables_mq():
     from .models import Event, Message, Offset
-    Base.metadata.create_all(bind=mq_engine)  # Создаёт все таблицы
+    Base.metadata.create_all(bind=mq_engine) # Создаёт все таблицы
+
 
 if __name__ == "__main__":
     create_tables_mq()
