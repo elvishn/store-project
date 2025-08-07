@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import inspect
-from store_mq.database import mq_engine, create_tables_mq
-from store_mq.init_data import init_mq_data
-from store_mq.models import EventType
+from src.store_mq.database import mq_engine, create_tables_mq
+from src.store_mq.init_data import init_mq_data
+from src.store_mq.models import EventType
 
 
 def check_connection():

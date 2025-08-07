@@ -11,7 +11,7 @@ engine = create_engine(ORDERS_DB_URL)
 Base = declarative_base()
 
 def create_tables():
-    from .models import Status, Order, Product
+    from src.order_service.models.models import Status, Order, Product
     Base.metadata.create_all(bind=engine)  # Создаёт все таблицы
 
 

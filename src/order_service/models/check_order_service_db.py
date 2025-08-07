@@ -1,9 +1,9 @@
 from sqlalchemy import inspect
 from sqlalchemy.orm import Session
-
 from src.order_service.models.init_data import init_statuses
-from .database import engine, Base, create_tables
-from .models import Status
+from database import engine, Base, create_tables
+from src.order_service.models.models import Status
+
 
 def database_connection():
     try:

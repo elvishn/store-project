@@ -1,12 +1,15 @@
 from sqlalchemy.orm import Session
-from .database import engine
-from .models import Status, Base
+
+from src.order_service.models.database import engine
+from src.order_service.models.models import Status, Base
+
+
 
 def init_statuses():
     DEFAULT_STATUSES = ["PENDING",
-                        "COMPLETED",
-                        "CANCELED",
-                        "FAILED"]
+                        "ASSEMBLING",
+                        "DELIVERING",
+                        "CLOSED"]
     with Session(engine) as session:
         existing_statuses = session.query(Status).count()
         if existing_statuses == 0:

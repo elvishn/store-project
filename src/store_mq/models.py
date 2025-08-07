@@ -1,6 +1,7 @@
+from datetime import datetime
 from uuid import uuid4
 
-from sqlalchemy import Column, String, UUID, ForeignKey, TIMESTAMP, func
+from sqlalchemy import Column, String, UUID, ForeignKey, TIMESTAMP, func, Integer
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -14,7 +15,7 @@ class Event(Base):
     __tablename__ = 'event'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     type = Column(String, ForeignKey('event_type.id'))
-    created_at = Column(TIMESTAMP, server_default=func.now())
+    created_at = Column(Integer, default=lambda: int(datetime.now().timestamp()))
     messages = relationship("Message", back_populates="event")
 
 class Offset(Base):
