@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from uuid import uuid4
 from sqlalchemy import Column, String, UUID, ForeignKey, TIMESTAMP, func, Integer
 from sqlalchemy.orm import relationship
@@ -10,6 +11,12 @@ class Status(Base):
     __tablename__ = 'status'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     type = Column(String, nullable=False)
+
+class StatusType(Enum):
+    PENDING = "PENDING"
+    ASSEMBLING = "ASSEMBLING"
+    DELIVERING = "DELIVERING"
+    CLOSED = "CLOSED"
 
 class Product(Base):
     __tablename__ = 'product'

@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from uuid import uuid4
 
 from sqlalchemy import Column, String, UUID, ForeignKey, TIMESTAMP, func, Integer
@@ -10,6 +11,11 @@ class EventType(Base):
     __tablename__ = 'event_type'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     type = Column(String(50), nullable=False, unique=True)
+
+class DefaultType(Enum):
+    ORDER_CREATED = "ORDER_CREATED"
+    ORDER_UPDATED = "ORDER_UPDATED"
+
 
 class Event(Base):
     __tablename__ = 'event'

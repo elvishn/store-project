@@ -24,7 +24,7 @@ for i in orders_id:
         id=i,
         user_id=random.choice(users_id),
         status_id=random.choice([pending_status, assembling_status, delivering_status, closed_status]),
-        created_at=created_at_timestamp,  # Передаём числовой timestamp
+        created_at=created_at_timestamp,
         updated_at=updated_at_timestamp
     )
     session.add(order)

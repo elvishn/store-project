@@ -6,12 +6,8 @@ from src.store_mq.models import EventType
 
 
 def check_connection():
-    try:
-        with mq_engine.connect():
-            print('Успешно подключенно к БД!')
-    except Exception as e:
-        print(f'Ошибка : {e}')
-        return
+    with mq_engine.connect():
+        print('Успешно подключенно к БД!')
 
 def check_EventType():
     with Session(mq_engine) as session:
