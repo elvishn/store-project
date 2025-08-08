@@ -12,7 +12,7 @@ Base = declarative_base()
 
 def create_tables():
     from src.order_service.models.models import Status, Order, Product
-    Base.metadata.create_all(bind=engine)  # Создаёт все таблицы
+    Base.metadata.create_all(bind=engine)
 
 
 if __name__ == "__main__":

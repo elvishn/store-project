@@ -1,20 +1,14 @@
 from sqlalchemy.orm import Session
 
 from src.order_service.models.database import engine
-from src.order_service.models.models import Status, Base
-
+from src.order_service.models.models import Status, Base, StatusType
 
 
 def init_statuses():
-    DEFAULT_STATUSES = ["PENDING",
-                        "ASSEMBLING",
-                        "DELIVERING",
-                        "CLOSED"]
     with Session(engine) as session:
-        existing_statuses = session.query(Status).count()
-        if existing_statuses == 0:
-            for status_type in DEFAULT_STATUSES:
-                session.add(Status(type=status_type))
+        if session.query(Status).count() == 0:
+            for status in StatusType:
+                session.add(Status(type=status.value))
             session.commit()
 
 if __name__ == "__main__":

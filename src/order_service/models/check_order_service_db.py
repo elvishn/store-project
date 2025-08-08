@@ -6,12 +6,8 @@ from src.order_service.models.models import Status
 
 
 def database_connection():
-    try:
-        with engine.connect():
-            print('Усешно подключенно к БД')
-    except Exception as e:
-        print(f'Ощибка: {e}')
-        return
+    with engine.connect():
+        print('Усешно подключенно к БД')
 
 def check_statuses():
     with Session(engine) as session:
