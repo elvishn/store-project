@@ -5,7 +5,6 @@ from src.order_service.models.database import engine
 import random
 from src.order_service.models.models import Order, Product, Status
 
-
 def print_answer(model, lst):
     columns = model.__table__.columns.keys()
     if not lst:
@@ -46,7 +45,6 @@ def clossed_order(): #закрытые заказы
         orders = session.query(Order).filter(Order.status_id == closed_status).all()
         print_answer(Order, orders)
 
-
 def clossed_order_for_user(): #закрытые заказы для пользователя по id за 2024 год
     with Session(engine) as session:
         user_ids = [user_id for (user_id,) in session.query(Order.user_id).distinct().all()]
@@ -62,10 +60,3 @@ def clossed_order_for_user(): #закрытые заказы для пользо
         ).all()
         print_answer(Order, orders)
 clossed_order_for_user()
-
-
-
-
-
-
-

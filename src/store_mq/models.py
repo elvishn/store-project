@@ -6,7 +6,6 @@ from sqlalchemy import Column, String, UUID, ForeignKey, TIMESTAMP, func, Intege
 from sqlalchemy.orm import relationship
 from .database import Base
 
-
 class EventType(Base):
     __tablename__ = 'event_type'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
@@ -15,7 +14,6 @@ class EventType(Base):
 class DefaultType(Enum):
     ORDER_CREATED = "ORDER_CREATED"
     ORDER_UPDATED = "ORDER_UPDATED"
-
 
 class Event(Base):
     __tablename__ = 'event'
@@ -35,5 +33,3 @@ class Message(Base):
     type_id = Column(UUID(as_uuid=True), ForeignKey("event.id"))
     message = Column(String)
     event = relationship("Event", back_populates="messages")
-
-

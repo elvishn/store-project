@@ -37,5 +37,4 @@ for j in range(15):
         order_id=random.choice(orders_id)
     )
     session.add(prod)
-
 session.commit()

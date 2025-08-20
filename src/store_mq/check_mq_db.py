@@ -4,7 +4,6 @@ from src.store_mq.database import mq_engine, create_tables_mq
 from src.store_mq.init_data import init_mq_data
 from src.store_mq.models import EventType
 
-
 def check_connection():
     with mq_engine.connect():
         print('Успешно подключенно к БД!')
@@ -30,4 +29,3 @@ if __name__ == "__main__":
     init_mq_data()
     check_EventType()
     check_db_structure()
-

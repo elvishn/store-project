@@ -4,7 +4,6 @@ from src.order_service.models.init_data import init_statuses
 from database import engine, Base, create_tables
 from src.order_service.models.models import Status
 
-
 def database_connection():
     with engine.connect():
         print('Усешно подключенно к БД')
@@ -23,7 +22,6 @@ def check_db_structure():
         print(f'\nТаблица: {table_name}')
         for col in inspector.get_columns(table_name):
             print(f' Поле: {col['name']}, type({col['type']})')
-
 
 if __name__ == '__main__':
     database_connection()

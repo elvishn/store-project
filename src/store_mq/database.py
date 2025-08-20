@@ -13,6 +13,5 @@ def create_tables_mq():
     from .models import Event, Message, Offset
     Base.metadata.create_all(bind=mq_engine)
 
-
 if __name__ == "__main__":
     create_tables_mq()

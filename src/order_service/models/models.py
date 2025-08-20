@@ -6,7 +6,6 @@ from sqlalchemy.orm import relationship
 
 from src.order_service.models.database import Base
 
-
 class Status(Base):
     __tablename__ = 'status'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
@@ -33,6 +32,3 @@ class Order(Base):
     updated_at = Column(Integer, onupdate=lambda: int(datetime.now().timestamp()))
     products = relationship('Product', back_populates="order")
     status = relationship('Status')
-
-
-

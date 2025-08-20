@@ -16,8 +16,6 @@ UPDATED_MESSAGE = {
     "created_at" : 1752421765
 }
 
-
-
 def create_events(type_event, message_data):
     with Session(mq_engine) as session:
         order_type = str(session.query(EventType).filter_by(type=type_event).first().id)
@@ -53,5 +51,3 @@ if __name__ == '__main__':
     create_events('ORDER_UPDATED', UPDATED_MESSAGE)
     check_new_event(Event)
     check_new_event(Message)
-
-
