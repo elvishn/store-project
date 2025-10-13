@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
-
-from src.order_service.models.database import engine
-from src.order_service.models.models import Status, Base, StatusType
+from order_service.models.database import engine
+from order_service.models.models import Status, StatusType
 
 
 def init_statuses():

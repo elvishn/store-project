@@ -3,14 +3,17 @@ from enum import Enum
 from uuid import uuid4
 from sqlalchemy import Column, String, UUID, ForeignKey, TIMESTAMP, func, Integer
 from sqlalchemy.orm import relationship
-
-from src.order_service.models.database import Base
+from order_service.models.database import Base
 
 
 class Status(Base):
     __tablename__ = 'status'
+    __table_args__ = {'extend_existing': True}
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     type = Column(String, nullable=False)
+
+    def __str__(self):
+        return self.type
 
 class StatusType(Enum):
     PENDING = "PENDING"
@@ -20,12 +23,14 @@ class StatusType(Enum):
 
 class Product(Base):
     __tablename__ = 'product'
+    __table_args__ = {'extend_existing': True}
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     order_id = Column(UUID(as_uuid=True), ForeignKey("order.id"))
     order = relationship("Order", back_populates="products")
 
 class Order(Base):
     __tablename__ = 'order'
+    __table_args__ = {'extend_existing': True}
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     user_id = Column(UUID(as_uuid=True))
     status_id = Column(UUID(as_uuid=True), ForeignKey('status.id'))

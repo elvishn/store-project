@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import inspect
-from src.store_mq.database import mq_engine, create_tables_mq
-from src.store_mq.init_data import init_mq_data
-from src.store_mq.models import EventType
+from store_mq.database import mq_engine, create_tables_mq
+from store_mq.init_data import init_mq_data
+from store_mq.models import EventType, Offset
 
 
 def check_connection():
@@ -23,11 +23,18 @@ def check_db_structure():
         print(f'\nТаблица: {table_name}')
         for col in inspector.get_columns(table_name):
             print(f' Поле: {col['name']}, ({col['type']})')
-
+def check_Offset():
+    with Session(mq_engine) as session:
+        offsets = session.query(Offset).all()
+        if not offsets:
+            print('Таблица пуста')
+        for offset in offsets:
+            print(f'ID: {offset.client_name}, type: {offset.offset}')
 if __name__ == "__main__":
-    check_connection()
-    create_tables_mq()
-    init_mq_data()
-    check_EventType()
-    check_db_structure()
+    #check_connection()
+    #create_tables_mq()
+    #init_mq_data()
+    #check_EventType()
+    #check_db_structure()
+    check_Offset()
 
