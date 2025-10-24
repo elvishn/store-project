@@ -4,7 +4,6 @@ from uuid import UUID
 import uvicorn
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-
 from order_service.models.database import create_tables, get_db
 from order_service.models.init_data import init_statuses
 from order_service.models.models import Order
@@ -15,9 +14,10 @@ from fastapi import FastAPI, Depends
 import os
 from typing import Optional
 from sqlalchemy.orm import Session
-
 from store_mq.job import check_events
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 scheduler = BackgroundScheduler()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,16 +25,16 @@ async def lifespan(app: FastAPI):
     create_tables_mq()
     init_statuses()
     init_mq_data()
+    logging.info('JOB starts work')
     scheduler.add_job(check_events,
                       trigger=IntervalTrigger(seconds=5),
                       id="check_events_job",
                       name="Check for new events every 5 seconds",
                       replace_existing=True)
     scheduler.start()
-    print('Начало')
     yield
     scheduler.shutdown()
-    print('Конец')
+    logging.info('JOB ending work')
 app = FastAPI(lifespan=lifespan)
 app.include_router(order_router)
 
