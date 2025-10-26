@@ -7,7 +7,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from order_service.models.database import create_tables, get_db
 from order_service.models.init_data import init_statuses
 from order_service.models.models import Order
-from order_service.routing.endpoints import order_router
+from order_service.routing.endpoints import order_router, user_router
 from store_mq.database import create_tables_mq
 from store_mq.init_data import init_mq_data
 from fastapi import FastAPI, Depends
@@ -37,6 +37,7 @@ async def lifespan(app: FastAPI):
     logging.info('JOB ending work')
 app = FastAPI(lifespan=lifespan)
 app.include_router(order_router)
+app.include_router(user_router)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000) #Запуск веб-сервера
+    uvicorn.run(app, host="localhost", port=8000)

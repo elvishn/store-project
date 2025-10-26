@@ -57,3 +57,8 @@ class OrderResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class UserResponse(BaseModel):
+    user_id: Optional[UUID4] = None
+
+    class Config:
+        from_attributes = True

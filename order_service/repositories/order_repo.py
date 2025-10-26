@@ -29,3 +29,7 @@ def get_orders_by_status(db: Session, status_type: StatusType): #заказы п
     status = db.query(Status).filter(Status.type == status_type.value).first()
     orders = db.query(Order).filter(Order.status_id == status.id).all()
     return orders
+
+def get_all_users(db: Session):
+    users = db.query(Order.user_id).all()
+    return users

@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from order_service.models.database import engine
 from order_service.models.models import Status, StatusType
 
-
 def init_statuses():
     with Session(engine) as session:
         if session.query(Status).count() == 0:
