@@ -31,10 +31,10 @@ def check_Offset():
         for offset in offsets:
             print(f'ID: {offset.client_name}, type: {offset.offset}')
 if __name__ == "__main__":
-    #check_connection()
-    #create_tables_mq()
-    #init_mq_data()
-    #check_EventType()
-    #check_db_structure()
+    check_connection()
+    create_tables_mq()
+    init_mq_data()
+    check_EventType()
+    check_db_structure()
     check_Offset()
 

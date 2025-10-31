@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
+
+import logger
+log = logger.setup_applevel_logger()
+
 from store_mq.database import mq_engine
 from store_mq.models import Event, Offset
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
 
 def check_events():
     with Session(mq_engine) as session:
@@ -11,7 +12,7 @@ def check_events():
         if offset:
             stop_event = session.query(Event).filter(Event.id == offset.offset).first().created_at
             new_events = session.query(Event).filter(Event.created_at >= stop_event).all()
-            logging.debug('NEW EVENTS:' + str(len(new_events)))
+            log.debug('NEW EVENTS:' + str(len(new_events)))
             if new_events:
                 offset.offset = new_events[-1].id
                 session.commit()

@@ -1,23 +1,21 @@
-import sys
 from contextlib import asynccontextmanager
-from uuid import UUID
 import uvicorn
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
+from fastapi import FastAPI
+
+import logger
+log = logger.setup_applevel_logger()
+
 from order_service.models.database import create_tables, get_db
 from order_service.models.init_data import init_statuses
 from order_service.models.models import Order
 from order_service.routing.endpoints import order_router, user_router
 from store_mq.database import create_tables_mq
 from store_mq.init_data import init_mq_data
-from fastapi import FastAPI, Depends
-import os
-from typing import Optional
-from sqlalchemy.orm import Session
 from store_mq.job import check_events
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
+log = logger.get_logger(__name__)
 scheduler = BackgroundScheduler()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,7 +23,7 @@ async def lifespan(app: FastAPI):
     create_tables_mq()
     init_statuses()
     init_mq_data()
-    logging.info('JOB starts work')
+    log.info('JOB starts work')
     scheduler.add_job(check_events,
                       trigger=IntervalTrigger(seconds=5),
                       id="check_events_job",
@@ -34,7 +32,7 @@ async def lifespan(app: FastAPI):
     scheduler.start()
     yield
     scheduler.shutdown()
-    logging.info('JOB ending work')
+    log.info('JOB ending work')
 app = FastAPI(lifespan=lifespan)
 app.include_router(order_router)
 app.include_router(user_router)
