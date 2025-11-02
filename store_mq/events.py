@@ -1,5 +1,4 @@
 import json
-import time
 from sqlalchemy.orm import Session
 from store_mq.database import mq_engine
 from store_mq.models import EventType, Event, Message
@@ -29,27 +28,9 @@ def create_events(type_event, message_data):
         session.flush()
         session.commit()
 
-def check_new_event(model):
-    with Session(mq_engine) as session:
-        events = session.query(model).all()
-        if not events:
-            print('Пусто')
-            return
-
-        columns = model.__table__.columns.keys()
-        for event in events:
-            print()
-            for column in columns:
-                value = getattr(event, column)
-                print(f"{column}: {value}")
-
 if __name__ == '__main__':
-    check_new_event(Event)
-    check_new_event(Message)
     create_events('ORDER_CREATED', CREATED_MESSAGE)
-    time.sleep(5)
     create_events('ORDER_UPDATED', UPDATED_MESSAGE)
-    check_new_event(Event)
-    check_new_event(Message)
+    
 
 

@@ -6,6 +6,7 @@ log = logger.setup_applevel_logger()
 from store_mq.database import mq_engine
 from store_mq.models import Event, Offset
 
+log = logger.get_logger(__name__)
 def check_events():
     with Session(mq_engine) as session:
         offset = session.query(Offset).first()
