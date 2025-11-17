@@ -31,6 +31,6 @@ def create_events(type_event, message_data):
 if __name__ == '__main__':
     create_events('ORDER_CREATED', CREATED_MESSAGE)
     create_events('ORDER_UPDATED', UPDATED_MESSAGE)
-    
+
 
 

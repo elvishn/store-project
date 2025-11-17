@@ -15,6 +15,8 @@ def check_statuses():
             print('Таблица пуста')
         for status in statuses:
             print(f'ID: {status.id}, Type: {status.type}')
+            if status.type == 'PENDING':
+                print(status.id)
 
 def check_db_structure():
     inspector = inspect(engine)

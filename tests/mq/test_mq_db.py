@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import inspect
 from store_mq.database import mq_engine, create_tables_mq
 from store_mq.init_data import init_mq_data
-from store_mq.models import EventType, Offset
+from store_mq.models import EventType, Offset, Message
+
 
 class TestMq(unittest.TestCase):
     def test_connect(self):
@@ -27,6 +28,14 @@ class TestMq(unittest.TestCase):
         with Session(mq_engine) as session:
             offsets = session.query(Offset).all()
             self.assertGreater(len(offsets), 0, 'Table Offset is empty')
+
+    def test_check_Message(self):
+        with Session(mq_engine) as session:
+            count = session.query(Message).count()
+            if count == 0:
+                raise AssertionError('Table Message is empty')
+            print(count)
+            return count
 
 if __name__ == "__main__":
     create_tables_mq()

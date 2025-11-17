@@ -15,7 +15,6 @@ class DefaultType(Enum):
     ORDER_CREATED = "ORDER_CREATED"
     ORDER_UPDATED = "ORDER_UPDATED"
 
-
 class Event(Base):
     __tablename__ = 'event'
     __table_args__ = {'extend_existing': True}
@@ -25,7 +24,6 @@ class Event(Base):
     message_id = Column(UUID(as_uuid=True), ForeignKey('message.id'))
 
     message = relationship("Message", back_populates="events")
-
 class Offset(Base):
     __tablename__ = 'offset'
     __table_args__ = {'extend_existing': True}
@@ -39,5 +37,3 @@ class Message(Base):
     message = Column(String)
 
     events = relationship("Event", back_populates="message")
-
-
