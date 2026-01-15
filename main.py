@@ -1,0 +1,41 @@
+from contextlib import asynccontextmanager
+import uvicorn
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
+from fastapi import FastAPI
+
+import logger
+log = logger.setup_applevel_logger()
+
+from order_service.models.database import create_tables, get_db
+from order_service.models.init_data import init_statuses
+from order_service.models.models import Order
+from order_service.routing.endpoints import order_router, user_router
+from store_mq.database import create_tables_mq
+from store_mq.init_data import init_mq_data
+from store_mq.job import check_events
+
+log = logger.get_logger(__name__)
+scheduler = BackgroundScheduler()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_tables()
+    create_tables_mq()
+    init_statuses()
+    init_mq_data()
+    log.info('JOB starts work')
+    scheduler.add_job(check_events,
+                      trigger=IntervalTrigger(seconds=5),
+                      id="check_events_job",
+                      name="Check for new events every 5 seconds",
+                      replace_existing=True)
+    scheduler.start()
+    yield
+    scheduler.shutdown()
+    log.info('JOB ending work')
+app = FastAPI(lifespan=lifespan)
+app.include_router(order_router)
+app.include_router(user_router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="localhost", port=8000)

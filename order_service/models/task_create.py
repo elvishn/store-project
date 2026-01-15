@@ -3,7 +3,7 @@ import random
 from uuid import uuid4
 from sqlalchemy.orm import Session, sessionmaker
 from models import Status, Product, Order
-from src.order_service.models.database import engine
+from order_service.models.database import engine
 Session = sessionmaker(bind=engine)
 session = Session()
 
